@@ -13,6 +13,10 @@ loguru_get_version_from_header() # defines LOGURU_VERSION
 # --- define project and policies
 # ----------------------------------------------------------
 
+if(POLICY CMP0077) # https://cmake.org/cmake/help/latest/policy/CMP0077.html
+  cmake_policy(SET CMP0077 NEW) # allow non-cache variables to set options()
+endif()
+
 set(_namespace loguru)
 project(loguru VERSION "${LOGURU_VERSION}" LANGUAGES CXX)
 
