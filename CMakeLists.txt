@@ -52,7 +52,12 @@ endif()
 # --- expose cmake-specific user options
 # ----------------------------------------------------------
 
+include(CMakeDependentOption)
+
 option(LOGURU_ENABLE_COMPILER_WARNINGS "Enable compiler warnings for loguru" ${PROJECT_IS_TOP_LEVEL})
+cmake_dependent_option(LOGURU_WARNINGS_AS_ERRORS
+  "Treat compile warnings as errors (gcc/clang -Werror, msvc /WX)" OFF
+  "LOGURU_ENABLE_COMPILER_WARNINGS" OFF)
 option(LOGURU_INSTALL        "Generate the install target(s)" ${PROJECT_IS_TOP_LEVEL})
 option(LOGURU_BUILD_EXAMPLES "Build the project examples"     ${PROJECT_IS_TOP_LEVEL})
 option(LOGURU_BUILD_TESTS    "Build the tests"                ${PROJECT_IS_TOP_LEVEL})
@@ -70,6 +75,14 @@ if (LOGURU_ENABLE_COMPILER_WARNINGS)
     "$<$<CXX_COMPILER_ID:Clang>:-Weverything;-Wno-c++98-compat;-Wno-c++98-compat-pedantic>"
     "$<$<CXX_COMPILER_ID:MSVC>:/W4>"
   )
+  if (LOGURU_WARNINGS_AS_ERRORS)
+    message(STATUS "Treating loguru compile warnings as errors")
+    add_compile_options(
+      "$<$<CXX_COMPILER_ID:GNU>:-Werror>"
+      "$<$<CXX_COMPILER_ID:Clang>:-Werror>"
+      "$<$<CXX_COMPILER_ID:MSVC>:/WX>"
+    )
+  endif()
 endif()
 
 # --- add loguru target
