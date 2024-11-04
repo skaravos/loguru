@@ -48,6 +48,7 @@ endif()
 # --- expose cmake-specific user options
 # ----------------------------------------------------------
 
+option(LOGURU_ENABLE_COMPILER_WARNINGS "Enable compiler warnings for loguru" ${PROJECT_IS_TOP_LEVEL})
 option(LOGURU_INSTALL        "Generate the install target(s)" ${PROJECT_IS_TOP_LEVEL})
 option(LOGURU_BUILD_EXAMPLES "Build the project examples"     ${PROJECT_IS_TOP_LEVEL})
 option(LOGURU_BUILD_TESTS    "Build the tests"                ${PROJECT_IS_TOP_LEVEL})
@@ -58,8 +59,8 @@ endif()
 # --- set global compile flags
 # ----------------------------------------------------------
 
-if (PROJECT_IS_TOP_LEVEL)
-  # enable ALL warnings for all subsequently defined targets
+if (LOGURU_ENABLE_COMPILER_WARNINGS)
+  # enable strict compiler warnings for all subsequently defined targets
   add_compile_options(
     "$<$<CXX_COMPILER_ID:GNU>:-Wall;-Wextra;-Werror;-pedantic>"
     "$<$<CXX_COMPILER_ID:Clang>:-Weverything;-Wno-c++98-compat;-Wno-c++98-compat-pedantic>"
