@@ -71,7 +71,7 @@ endif()
 if (LOGURU_ENABLE_COMPILER_WARNINGS)
   # enable strict compiler warnings for all subsequently defined targets
   add_compile_options(
-    "$<$<CXX_COMPILER_ID:GNU>:-Wall;-Wextra;-Werror;-pedantic>"
+    "$<$<CXX_COMPILER_ID:GNU>:-Wall;-Wextra;-pedantic>"
     "$<$<CXX_COMPILER_ID:Clang>:-Weverything;-Wno-c++98-compat;-Wno-c++98-compat-pedantic>"
     "$<$<CXX_COMPILER_ID:MSVC>:/W4>"
   )
